@@ -1,0 +1,143 @@
+<!-- <div ng-include src="'layout/header_layout.html'"></div>  -->
+<div class="col-lg-12" style="min-height: 20px;">
+	<h3 style="text-align: center; color: white;"></h3>
+</div>
+<form name="userForm" role="form" class="form-horizontal" novalidate>
+	<div class="col-sm-12">
+		<div class="col-sm-6">
+			<div class="form-group col-sm-12 vidmgt-right">
+				<label class="control-label col-sm-4">Select College<span
+					class="req">*</span>:
+				</label>
+				<div class="col-sm-8">
+					<select name="college" class="form-control" ng-model="user.college"
+						ng-options="college.name for college in collegeList"
+						ng-required="true">
+						<option value=''>Select College</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group col-sm-12 vidmgt-right">
+				<label class="control-label col-sm-4">Select Date<span
+					class="req">*</span>:
+				</label>
+				<div class="col-sm-8">
+					<select name="date" class="form-control" ng-model="user.date"
+						ng-options="date.trDate for date in dateList" ng-required="false">
+						<option value=''>Select Training Date</option>
+					</select>
+				</div>
+			</div>
+
+		</div>
+		<div class="col-sm-6">
+			<div class="form-group col-sm-12 vidmgt-right">
+				<label class="control-label col-sm-4">Select Batch<span
+					class="req">*</span>:
+				</label>
+				<div class="col-sm-8">
+					<select name="batch" class="form-control" ng-model="user.batch"
+						ng-options="batch.batchName for batch in batchList"
+						ng-required="true">
+						<option value=''>Select Batch</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="form-group row col-sm-12">
+		<div class="form-group col-sm-6">
+			<div class="col-sm-offset-2 col-sm-1">
+				<button type="submit" class="btn btn-success"
+					ng-click="getStudentList(user)" ng-disabled="userForm.$invalid">Submit</button>
+			</div>
+
+			<div class="col-sm-offset-2 col-sm-1">
+				<button type="submit" class="btn btn-success"
+					ng-click="updateFreeze(user)" ng-disabled="disableUpdateButton"
+					ng-show="showFreezeButton">Freeze</button>
+			</div>
+
+		</div>
+	</div>
+</form>
+<div class="empty-text-log" ng-if="infoMessage">No Records Found</div>
+<div class="success-text-log" ng-if="successMessage">Student
+	attendance updated Successfully</div>
+<div class="freeze-text-log" ng-if="freezeMessage">Freezed
+	Successfully</div>
+<!-- <ul class="nav nav-tabs">
+	<li ng-repeat="dept in deptNames" id="{{dept}}"
+		><a class="{'active':selected=={{dept}}" data-toggle="tab" ng-click="showDept(dept)"><i
+			 class="fa fa-fw fa-user"></i> <span class="hidden-sm hidden-xs">{{dept}}</span></a></li>
+
+</ul> -->
+
+<ul class="nav nav-tabs" ng-init="activeTab = 'cse'" ng-class="{active: activeTab == 'cse'}">
+    <li  ng-repeat="dept in deptNames" >
+       <a class="{'active':selected=={{dept}}" data-toggle="tab" ng-click="showDept(dept)"><i
+			 class="fa fa-fw fa-user"></i> <span class="hidden-sm hidden-xs">{{dept}}</span></a>
+    </li>
+   <!--  <li ng-class="{active: activeTab == 'videos'}">
+        <a ng-click="activeTab='videos'">Videos</a>
+    </li> -->
+</ul>
+<div ng-if="showList">
+
+	<div class="panel panel-default "
+		>
+		<div class="panel-heading col-lg-12">
+			<div class="col-lg-10">
+				<h3>List of Students </h3>
+			</div>
+			<div class="col-lg-2">
+				<input type="text" ng-model="search" class="form-control"
+					placeholder="Search ...">
+			</div>
+		</div>
+		<div class="panel-body ">
+		<div class="col-lg-12" style="padding-top: 30px;">
+			<table datatable="ng" width="100%"
+				class="table table-striped table-bordered table-hover" id="tblMain">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Department</th>
+						<th>Attendance</th>
+						<th>Reason</th>
+						<th>Modified By</th>
+						<th width="100"><button type="submit" class="btn btn-success"
+								ng-click="updateAll()" ng-disabled="disableUpdateButton">Update
+								All</button></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr dir-paginate="u in studentList|filter:search|itemsPerPage:25">
+						<td>{{$index + 1}}</td>
+						<td><span ng-bind="u.studentId.name"></span></td>
+						<td><span ng-bind="u.studentId.email"></span></td>
+						<td><span ng-bind="u.studentId.department"></span></td>
+						<td><label class="switch" data-size="mini"> <input
+								type="checkbox" ng-if="u.attended" ng-checked="true"
+								ng-model=u.attended ng-disabled="disableUpdateButton"></input> <input type="checkbox"
+								ng-if="!u.attended" ng-model=u.attended ng-disabled="disableUpdateButton"></input>
+								<div class="slider round"></div>
+						</label><i class="fa fa-pencil" title="Updated" ng-if="u.modified"></i></td>
+
+						<td><input type="text" ng-model=u.reason ng-disabled="disableUpdateButton"></input></td>
+						<td><span ng-bind="u.updatedBy"></span></td>
+						<td>
+							<button type="submit" class="btn btn-success"
+								ng-click="update(u)" ng-disabled="disableUpdateButton">Update</button>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+			<dir-pagination-controls max-size="5" direction-links="true"
+				boundary-links="true"> </dir-pagination-controls>
+		</div>
+	</div>
+</div>

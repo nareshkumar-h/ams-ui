@@ -1,0 +1,110 @@
+<!-- <div ng-include src="'app/views/header.html'"></div> -->
+<form name="reportForm" role="form" class="form-horizontal" novalidate>
+	<div class="col-sm-12 btn-none" >
+		<div class="col-sm-4">
+			<div class="form-group col-sm-12 vidmgt-right">
+				<label class="control-label col-sm-4 ">Select College<span
+					class="req">*</span>:
+				</label>
+				<div class="col-sm-8">
+					<select name="college" class="form-control" ng-model="user.college"
+						ng-options="college.name for college in collegeList"
+						ng-required="true">
+						<option value=''>Select College</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="form-group col-sm-12 vidmgt-right">
+				<label class="control-label col-sm-4">Select Batch<span
+					class="req">*</span>:
+				</label>
+				<div class="col-sm-8">
+					<select name="batch" class="form-control" ng-model="user.batch"
+						ng-options="batch.batchName for batch in batchList"
+						ng-required="true">
+						<option value=''>Select Batch</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<button type="submit" class="btn btn-info"
+				ng-click="studentAttendanceReport()"
+				ng-disabled="reportForm.$invalid">Get Report</button>
+		</div>
+		<div class="col-sm-2">
+		<a href="" id="ipreport-pdf" ng-click="exportPdf()" ng-if="showReport" ><i
+							class="fa fa-file-pdf-o icon-btn1 "></i><br /> Export PDF</a>  
+							</div>
+		
+	</div>
+</form>
+ <!--  <a href="" id="ipreport-pdf" ng-click="exportPdf()" class="btn-none "><i
+							class="fa fa-file-pdf-o icon-btn1 "></i><br /> Export PDF</a>   -->
+
+<div ng-if="showReport">
+	<div class="col-lg-12">
+		<div class="container col-lg-6">
+			<form name="userForm" role="form" class="form-horizontal" novalidate>
+				<div class="form-group">
+					<label>Batch Name </label> : {{batchName}}
+				</div>
+				<div class="form-group">
+					<label>No of Students </label> : {{countReport}}
+				</div>
+				<div class="form-group">
+					<label>Total Sessions </label> : {{period}}
+				</div>
+
+			</form>
+		</div>
+	</div>
+	<div class="form-group" style="text-align: center;">
+		<h3>
+			<b>Department Wise Report</b>
+		</h3>
+	</div>
+	<div ng-repeat="dept in deptNames"  class="panel panel-default"
+		style="margin-left: 10px; margin-right: 10px;">
+		<div class="panel-heading col-lg-12">
+			<div class="col-lg-10">
+				<label>Department :</label> {{dept}}
+			</div>
+			<div class="col-lg-2">
+				<input type="text" ng-model="search" class="form-control btn-none"
+					placeholder="Search ...">
+			</div>
+		</div>
+		<div class="panel-body">
+		 <div class="col-lg-12" style="padding-top: 30px;">
+			<table datatable="ng" width="100%"
+				class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>EmailId</th>
+						<th>Department</th>
+						<th>Attended Sessions</th>
+						<th>Attendance%</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="sa in studentAttendanceReportList | filter: dept|filter: search">
+						<td>{{$index + 1}}</td>
+						<td><span ng-bind="sa.sName"></span></td>
+						<td><span ng-bind="sa.email"></span></td>
+						<td><span ng-bind="sa.dept"></span></td>
+						<td><span ng-bind="sa.totalAttended"></span></td>
+						<td><span ng-bind="sa.attendancePercentage"></span></td>
+
+					</tr>
+				</tbody>
+			</table>
+</div>
+		</div>
+	</div>
+	
+</div>

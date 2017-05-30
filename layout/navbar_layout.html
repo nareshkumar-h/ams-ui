@@ -1,0 +1,47 @@
+<div ng-controller="HeaderController">
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle" src="theme/img/profile_small.jpg" />
+                             </span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#myprofile">
+                        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Welcome {{name}}</strong>
+                             </span> <!-- <span class="text-muted text-xs block">Developer</span> --> </span>
+                    </a>
+
+                </div>
+                <div class="logo-element">
+                    IN+
+                </div>
+            </li>
+        
+            <li ng-class="{ active: isActive('/home')}" id="home">
+                <a href="" ng-click="home()" ng-if="showheader && !studentRole "><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboard</span><!-- <span class="fa arrow"></span> --></a>
+                
+            </li>
+
+					
+					
+             <li ng-class="{ active: isActive('/myAttendanceReport')}" id="al">
+                <a href="" ng-click="StudentAttendanceList()" ng-if="showheader"><i class="fa fa-th-large"></i> <span class="nav-label">My
+						Attendance List</span></a>
+               
+            </li>           
+            <li ng-class="{ active: isActive('/generateReport')}" id="report">
+                <a href="" ng-click="generateReport()"
+					ng-if="showheader && !studentRole"><i class="fa fa-diamond"></i> <span class="nav-label">Generate Report</span></a>
+            </li>
+            <li ng-class="{ active: isActive('/studentReview')}" id="inReview">
+                <a href="" ng-click="reviewList()"
+					ng-if="showheader && !studentRole"><i class="fa fa-user"></i> <span class="nav-label">Student Reviews</span></a>
+            </li>
+            
+          
+              
+        </ul>
+
+    </div>
+</nav>
+</div>
